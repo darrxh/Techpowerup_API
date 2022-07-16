@@ -3,20 +3,29 @@ from bs4 import BeautifulSoup
 import json
 
 class Api():
-    def html_query():
-        new_request = requests.get("https://www.techpowerup.com/gpu-specs/")
-        if not(new_request.ok):
-            print ("Error making HTTP request. \n\n")
-            return
-        sort_database(new_request)
+    def html_query(url):
+        new_request = requests.get(url)
+        return new_request.ok
 
-    def sort_database(new_request):
+    def gpu_fetch(new_request):
+        URL = "https://www.techpowerup.com/gpu-specs/"
+        html_query(URL)
         html_text = BeautifulSoup(new_request.text, "html.parser")
         html_text = html_text.find("table", class_="processors")
         parts_list = list(html_text.find_all("a"))
         for index in range(len(parts_list)):
             parts_list[index] = "Nvidia " + parts_list[index].string
-        print (parts_list)
+        print (parts_list) #testing line
+
+    def cpu_fetch(new_request):
+        URL = "https://www.techpowerup.com/cpu-specs/"
+        html_query(URL)
+        html_text = BeautifulSoup(new_request.text, "html.parser")
+        html_text = html_text.find("table", class_="processors")
+        parts_list = list(html_text.find_all("a"))
+        for index in range(len(parts_list)):
+            parts_list[index] = parts_list[index].string
+        print (parts_list) #testing line
 
     def update_reference():
         pass
