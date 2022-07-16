@@ -10,7 +10,9 @@ def html_query(input_dict):
         return
 
 def query_user():
-    user_input = input("")
+    user_input = input("Laptop? (Mobile): \n")
+
+
 
 
 
@@ -25,6 +27,7 @@ def json_export(dict_object):
     new_file.write(json_object)
     new_file.close()
     print ("JSON file created.")
+
 
 if __name__ == '__main__':
     main()
