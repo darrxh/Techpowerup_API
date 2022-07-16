@@ -11,13 +11,16 @@ def html_query():
     pull_database(new_request)
 
 def sort_database(new_request):
-    html_doc = BeautifulSoup(new_request.text, "html.parser")
-    print (html_doc)
+    html_text = BeautifulSoup(new_request.text, "html.parser")
+    html_text = html_text.find("table", class_="processors")
+    parts_list = list(html_text.final_all("a"))
+    for index in range(len(parts_list)):
+        parts_list[index] = parts_list[index].string
+        parts_list[index] = "Nvidia" + parts_list[index]
+    print (parts_list)
 
 def update_reference():
     pass
-
-
 
 def query_user():
     user_input = str(input("Enter GPU model: \n"))
@@ -43,5 +46,6 @@ def json_export(dict_object):
 if __name__ == '__main__':
     html_query()
     #main()
+
 
 
