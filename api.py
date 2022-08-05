@@ -3,8 +3,14 @@ from bs4 import BeautifulSoup
 import json
 
 class Api():
-    def html_query(url):
-        new_request = requests.get(url)
+
+    def __init__(self):
+        self.base_url = "https://www.techpowerup.com/"
+
+
+    def html_query(self):
+        new_request = requests.get(self.base_url)
+        print (new_request.ok)
         return new_request.ok
 
     def gpu_fetch(new_request):
@@ -59,11 +65,11 @@ class Api():
         print (command_list)
 
 def main():
-    pass
+    api = Api()
+    api.html_query
 
 if __name__ == '__main__':
-    html_query()
-    #main()
+    main()
 
 
 
