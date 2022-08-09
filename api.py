@@ -1,12 +1,38 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
 
 class Api():
 
     def __init__(self):
         self.base_url = "https://www.techpowerup.com/"
+        self.parameters = {
+        "mfgr" : ["NVIDIA","AMD","INTEL"],
+        "mobile" : ["No","Yes"],
+        "lower_year" : 2006,
+        "upper_year" : 2023 }
+        self.url_list = []
 
+    def update_url_list(self):
+        self.url_list.clear()
+        for option in self.parameters["mobile"]:
+            for manufacturer in self.parameters["mfgr"]:
+                for year in range(self.parameters["lower_year"],self.parameters["upper_year"]):
+                    self.url_list.append(f"{self.base_url}gpu-specs/?mfgr={manufacturer}&released={year}&mobile={option}")
+        for i in self.url_list:
+            print (i)
+        self.validate_url_list()
+
+    def validate_url_list(self):
+        for each_url in self.url_list:
+            time.sleep(10)
+            if not (requests.get(each_url).ok):
+                print (f"Error with URL: {each_url}")
+                return False
+            else:
+                print(f"URL: {each_url} OK")
+        return True
 
     def html_query(self):
         new_request = requests.get(self.base_url)
@@ -66,7 +92,7 @@ class Api():
 
 def main():
     api = Api()
-    api.html_query
+    api.update_url_list()
 
 if __name__ == '__main__':
     main()
