@@ -3,14 +3,14 @@ from bs4 import BeautifulSoup
 import json
 import time
 
-class Api():
+class Gpu():
 
     def __init__(self):
         self.base_url = "https://www.techpowerup.com/"
         self.parameters = {
         "mfgr" : ["NVIDIA","AMD","INTEL"],
         "mobile" : ["No","Yes"],
-        "lower_year" : 2006,
+        "lower_year" : 2010,
         "upper_year" : 2023 }
         self.url_list = []
 
@@ -26,7 +26,7 @@ class Api():
 
     def validate_url_list(self):
         for each_url in self.url_list:
-            time.sleep(10)
+            time.sleep(30)
             if not (requests.get(each_url).ok):
                 print (f"Error with URL: {each_url}")
                 return False
@@ -90,8 +90,20 @@ class Api():
                        ""
         print (command_list)
 
+class Cpu():
+
+    def __init__(self):
+        self.base_url = "https://www.techpowerup.com/"
+        self.parameters = {
+        "mfgr" : ["AMD","INTEL"],
+        "mobile" : ["No","Yes"],
+        "lower_year" : 2010,
+        "upper_year" : 2023 }
+        self.url_list = []
+
+
 def main():
-    api = Api()
+    api = Gpu()
     api.update_url_list()
 
 if __name__ == '__main__':
