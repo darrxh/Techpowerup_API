@@ -6,21 +6,24 @@ import time
 class Gpu():
 
     def __init__(self):
-        self.base_url = "https://www.techpowerup.com/"
+        self.base_url = "https://www.techpowerup.com/gpu-specs/"
         self.parameters = {
         "mfgr" : ["NVIDIA","AMD","INTEL"],
-        "mobile" : ["No","Yes"],
         "lower_year" : 2010,
         "upper_year" : 2023 }
         self.url_list = []
 
     def update_url_list(self):
         self.url_list.clear()
-        for option in self.parameters["mobile"]:
-            for manufacturer in self.parameters["mfgr"]:
-                for year in range(self.parameters["lower_year"],self.parameters["upper_year"]):
-                    self.url_list.append(f"{self.base_url}gpu-specs/?mfgr={manufacturer}&released={year}&mobile={option}")
-        for i in self.url_list:
+        for year in range(self.parameters["lower_year"],self.parameters["upper_year"]):
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][0]}&released={year}&mobile=No")
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][1]}&released={year}&mobile=No")
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][2]}&released={year}&mobile=No")
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][0]}&released={year}&mobile=Yes")
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][1]}&released={year}&mobile=Yes")
+            self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][2]}&released={year}&mobile=Yes")
+
+        for i in self.url_list: #testing line
             print (i)
         self.validate_url_list()
 
@@ -49,15 +52,6 @@ class Gpu():
             parts_list[index] = "Nvidia " + parts_list[index].string
         print (parts_list) #testing line
 
-    def cpu_fetch(new_request):
-        URL = "https://www.techpowerup.com/cpu-specs/"
-        html_query(URL)
-        html_text = BeautifulSoup(new_request.text, "html.parser")
-        html_text = html_text.find("table", class_="processors")
-        parts_list = list(html_text.find_all("a"))
-        for index in range(len(parts_list)):
-            parts_list[index] = parts_list[index].string
-        print (parts_list) #testing line
 
     def update_reference():
         pass
@@ -93,7 +87,7 @@ class Gpu():
 class Cpu():
 
     def __init__(self):
-        self.base_url = "https://www.techpowerup.com/"
+        self.base_url = "https://www.techpowerup.com/cpu-specs/"
         self.parameters = {
         "mfgr" : ["AMD","INTEL"],
         "mobile" : ["No","Yes"],
@@ -101,6 +95,15 @@ class Cpu():
         "upper_year" : 2023 }
         self.url_list = []
 
+    def cpu_fetch(new_request):
+        URL = "https://www.techpowerup.com/cpu-specs/"
+        html_query(URL)
+        html_text = BeautifulSoup(new_request.text, "html.parser")
+        html_text = html_text.find("table", class_="processors")
+        parts_list = list(html_text.find_all("a"))
+        for index in range(len(parts_list)):
+            parts_list[index] = parts_list[index].string
+        print (parts_list) #testing line
 
 def main():
     api = Gpu()
