@@ -13,8 +13,8 @@ class Gpu():
         "upper_year" : 2020 + 1 }
         self.url_list = []
 
-    def update_url_list(self):
-        self.url_list.clear()
+
+    def create_url_list(self):
         for year in range(self.parameters["lower_year"],self.parameters["upper_year"]):
             self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][0]}&released={year}&mobile=No")
             #self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][1]}&released={year}&mobile=No")
@@ -23,10 +23,13 @@ class Gpu():
             #self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][1]}&released={year}&mobile=Yes")
             #self.url_list.append(f"{self.base_url}?mfgr={self.parameters['mfgr'][2]}&released={year}&mobile=Yes")
 
-        for i in self.url_list: #testing line
-            print (i)
 
+    def update_url_list(self):
+        self.url_list.clear()
+        self.create_url_list()
+        print_list(self.url_list) #testing line
         self.validate_url_list()
+
 
         for i in self.url_list:
             self.gpu_fetch(i)
@@ -41,7 +44,10 @@ class Gpu():
                 time.sleep(1)
         return True
 
-
+    def print_list(self, list_object):
+        for item in list_oject:
+            print (item)
+        return
 
     def gpu_fetch(self, url):
         new_request = requests.get(url)
@@ -82,6 +88,8 @@ class Gpu():
                        "specs : returns detailed spec dictionary object from specified gpu or cpu (1 argument)" \
                        "list_all : return list of GPUs or CPUs containing string argument given" \
                        "compare : returns performance difference between two GPUs or CPUs (2 arguments)" \
+
+
                        ""
         print (command_list)
 
