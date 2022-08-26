@@ -37,7 +37,7 @@ class Gpu():
     def validate_url_list(self):
         for each_url in self.url_list:
             if not (requests.get(each_url).ok):
-                print (f"Error with URL: {each_url}")
+                print (f"Error with URL: {each_url}")  -
                 return False
             else:
                 print(f"URL: {each_url} OK")
