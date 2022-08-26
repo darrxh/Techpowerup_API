@@ -27,17 +27,22 @@ class Gpu():
     def update_url_list(self):
         self.url_list.clear()
         self.create_url_list()
-        print_list(self.url_list) #testing line
+        self.print_list(self.url_list) #testing line
         self.validate_url_list()
 
 
         for i in self.url_list:
             self.gpu_fetch(i)
 
+
+
+
+
+
     def validate_url_list(self):
         for each_url in self.url_list:
             if not (requests.get(each_url).ok):
-                print (f"Error with URL: {each_url}")  -
+                print (f"Error with URL: {each_url}")
                 return False
             else:
                 print(f"URL: {each_url} OK")
@@ -45,16 +50,36 @@ class Gpu():
         return True
 
     def print_list(self, list_object):
-        for item in list_oject:
+        for item in list_object:
             print (item)
         return
+
+
+    def dict_format(self, part_object):
+        spec_list = part_object.find_all("td")
+        part_dict = \
+        {"vendor" : spec_list[0]['class'],
+         "model" : spec_list.find('a').string,
+         "url" : spec_list[0].find('a')['href'],
+         "chip" : spec_list[1].string,
+         "release_date" : spec_list[2].string,
+         "bus" : spec_list[3].string,
+         "memory" : spec_list[4],
+         "gpu_clock" : spec_list[5],
+         "memory_clock" : spec_list[6],
+         "shaders" : spec_list[7],
+         "TMU" : spec_list[7],
+         "ROPs" : spec_list[7]}
+        return part_dict
 
     def gpu_fetch(self, url):
         new_request = requests.get(url)
         html_text = BeautifulSoup(new_request.text, "html.parser")
         html_text = html_text.find("table", class_="processors")
-        print (html_text)
-        parts_list = list(html_text.find_all("a"))
+        parts_list = list(html_text.find_all("tr"))
+        parts_list = (self.dict_format, parts_list)
+
+
         # for index in range(len(parts_list)):
         #     parts_list[index] = "Nvidia " + parts_list[index].string
         # print (parts_list) #testing line
@@ -89,8 +114,6 @@ class Gpu():
                        "list_all : return list of GPUs or CPUs containing string argument given" \
                        "compare : returns performance difference between two GPUs or CPUs (2 arguments)" \
 
-
-                       ""
         print (command_list)
 
 class Cpu():
