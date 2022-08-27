@@ -36,9 +36,6 @@ class Gpu():
 
 
 
-
-
-
     def validate_url_list(self):
         for each_url in self.url_list:
             if not (requests.get(each_url).ok):
@@ -57,9 +54,10 @@ class Gpu():
 
     def dict_format(self, part_object):
         spec_list = part_object.find_all("td")
+        core_counts = spec_list[7].string.split("/")
         part_dict = \
         {"vendor" : spec_list[0]['class'],
-         "model" : spec_list.find('a').string,
+         "model" : spec_list[0].find('a').string,
          "url" : spec_list[0].find('a')['href'],
          "chip" : spec_list[1].string,
          "release_date" : spec_list[2].string,
@@ -67,23 +65,24 @@ class Gpu():
          "memory" : spec_list[4],
          "gpu_clock" : spec_list[5],
          "memory_clock" : spec_list[6],
-         "shaders" : spec_list[7],
-         "TMU" : spec_list[7],
-         "ROPs" : spec_list[7]}
+         "shader" : int(core_counts[0]),
+         "tmu" : int(core_counts[1]),
+         "rop" : int(core_counts[2])}
+        print (part_dict) #testing line
+        self.dict_validator(part_dict)
         return part_dict
+
+
+    def dict_validator(self, dict_object):
+        pass
 
     def gpu_fetch(self, url):
         new_request = requests.get(url)
         html_text = BeautifulSoup(new_request.text, "html.parser")
         html_text = html_text.find("table", class_="processors")
-        parts_list = list(html_text.find_all("tr"))
-        parts_list = (self.dict_format, parts_list)
-
-
-        # for index in range(len(parts_list)):
-        #     parts_list[index] = "Nvidia " + parts_list[index].string
-        # print (parts_list) #testing line
-
+        parts_list = html_text.find_all("tr")
+        del parts_list[0:2]
+        parts_list = list(map(self.dict_format, parts_list))
 
     def update_reference():
         pass
