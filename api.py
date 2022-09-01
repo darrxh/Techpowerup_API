@@ -59,12 +59,15 @@ class Gpu():
          "shader" : int(core_counts[0]),
          "tmu" : int(core_counts[1]),
          "rop" : int(core_counts[2])}
+
         print (part_dict) #testing line
-        self.dict_validator(part_dict)
-        return part_dict
 
+        if (self.dict_is_valid(part_dict)):
+            return part_dict
+        else:
+            return None
 
-    def dict_validator(self, dict_object):
+    def dict_is_valid(self, dict_object):
         condition_log = []
         condition_log.append("NVIDIA" in dict_object["vendor"] or "AMD" in dict_object["vendor"] or "INTEL" in dict_object["vendor"])
         condition_log.append(type(dict_object["model"]) is str)
@@ -80,6 +83,11 @@ class Gpu():
         condition_log.append(type(dict_object["rop"]) is int)
 
         print (condition_log) #testing line
+
+        if (False in condition_log):
+            return False
+        else:
+            return True
 
 
 
