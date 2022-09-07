@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import time
+import os
+
+
 
 class Gpu():
 
@@ -12,6 +15,8 @@ class Gpu():
         "lower_year" : 2020,
         "upper_year" : 2020 + 1 }
         self.url_list = []
+
+
 
     def create_url_list(self):
         for year in range(self.parameters["lower_year"],self.parameters["upper_year"]):
@@ -42,6 +47,20 @@ class Gpu():
         for item in list_object:
             print (item)
         return
+
+    def create_directories(self):
+
+        parent_directory = "./data/"
+        year_directory = []
+        for each_year in range (self.parameters["lower_year"], self.parameters["upper_year"]):
+            each_year = str(each_year)
+            path = os.path.join(parent_directory, each_year)
+            os.mkdir(path)
+            year_directory.append(path)
+            for each_manufacturer in self.parameters["mfgr"]:
+                each_manufacturer = str(each_manufacturer)
+                path = os.path.join(each_manufacturer)
+
 
     def dict_format(self, part_object):
         spec_list = part_object.find_all("td")
