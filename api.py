@@ -109,6 +109,13 @@ class Gpu():
             return True
 
 
+    def get_custom_boards(self, gpu_url):
+        new_request = requests.get(gpu_url)
+        html_text = BeautifulSoup(new_request.text, "html.parser")
+        board_list = html_text.final_all("td", class_="has-image")
+        print (board_list)
+
+
 
     def gpu_fetch(self):
         for url in self.url_list:
