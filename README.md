@@ -1,9 +1,9 @@
-#Techpowerup API
+# Techpowerup API
 
-##Overview
+## Overview
 Web Scraper API for Techpowerup.com to fetch CPU and GPU data.
 
-##Usage
+## Usage
 *API not yet finished*
 *Instructions will follow shortly afterward*
 
